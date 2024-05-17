@@ -1,3 +1,40 @@
+ SELECT DATE('now'),
+TIME()
+
+SELECT STRFTIME('%Y/%m/%d', 'NOW')
+
+SELECT datetime()
+
+SELECT vendor_id, market_date FROM customer_purchases
+group by market_date
+
+SELECT customer_id,
+count(distinct product_id)  from customer_purchases
+GROUP by customer_id
+
+SELECT count(customer_id) -- number of purchases per that day
+,market_date
+
+FROM customer_purchases
+WHERE market_date BETWEEN '2019-04-01' AND '2019-04-30'
+GROUP BY market_date
+
+
+SELECT max(customer_first_name) FROM customer
+
+SELECT product_name, max(original_price)
+FROm product as p
+join vendor_inventory vi
+on p.product_id = vi.product_id
+
+SELECT CAST(10.3/2.0 AS INTEGER)
+
+SELECT p.product_id, max(m,ax
+  SELECT cp.customer_id,product_id,  max(quantity) as max_quantity 
+  FROM customer_purchases as cp
+
+
+
 -- AGGREGATE
 /* 1. Write a query that determines how many times each vendor has rented a booth 
 at the farmer’s market by counting the vendor booth assignments per vendor_id. */
