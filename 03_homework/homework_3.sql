@@ -1,47 +1,10 @@
- SELECT DATE('now'),
-TIME()
-
-SELECT STRFTIME('%Y/%m/%d', 'NOW')
-
-SELECT datetime()
-
-SELECT vendor_id, market_date FROM customer_purchases
-group by market_date
-
-SELECT customer_id,
-count(distinct product_id)  from customer_purchases
-GROUP by customer_id
-
-SELECT count(customer_id) -- number of purchases per that day
-,market_date
-
-FROM customer_purchases
-WHERE market_date BETWEEN '2019-04-01' AND '2019-04-30'
-GROUP BY market_date
-
-
-SELECT max(customer_first_name) FROM customer
-
-SELECT product_name, max(original_price)
-FROm product as p
-join vendor_inventory vi
-on p.product_id = vi.product_id
-
-SELECT CAST(10.3/2.0 AS INTEGER)
-
-SELECT p.product_id, max(m,ax
-  SELECT cp.customer_id,product_id,  max(quantity) as max_quantity 
-  FROM customer_purchases as cp
-
-
-
 -- AGGREGATE
 /* 1. Write a query that determines how many times each vendor has rented a booth 
 at the farmer’s market by counting the vendor booth assignments per vendor_id. */
 A:
 SELECT vendor_id, COUNT(*) as booth_count
 FROM vendor_booth_assignments
-GROUP BY vendor_id
+GROUP BY vendor_id;
 
 /* 2. The Farmer’s Market Customer Appreciation Committee wants to give a bumper 
 sticker to everyone who has ever spent more than $2000 at the market. Write a query that generates a list 
@@ -54,7 +17,7 @@ FROM customer c
 JOIN customer_purchases cp ON c.customer_id = cp.customer_id
 GROUP BY c.customer_id
 HAVING SUM(amount)  > 2000
-ORDER BY  c.customer_last_name, c.customer_first_name
+ORDER BY  c.customer_last_name, c.customer_first_name;
 
 --Temp Table
 /* 1. Insert the original vendor table into a temp.new_vendor and then add a 10th vendor: 
@@ -67,11 +30,18 @@ When inserting the new vendor, you need to appropriately align the columns to be
 -> To insert the new row use VALUES, specifying the value you want for each column:
 VALUES(col1,col2,col3,col4,col5) 
 */
-
-CREATE  TABLE temp_new_vendor  AS
+A:
+--Copying the vendor table to a temporaty table
+DROP TABLE IF EXISTS temp_new_vendor;
+CREATE  TEMP TABLE temp_new_vendor  AS
 SELECT * FROM vendor;
 
-SELECT * FEOM temp_new_vendor
+-- Inserting the 10th vendor
+INSERT INTO temp_new_vendor ('vendor_id', 'vendor_name', 'vendor_type', 'vendor_owner_first_name', 'vendor_owner_last_name')
+VALUES ('10', 'Thomass Superfood Store', 'a Fresh Focused store', 'Thomas', 'Rosenthal');
+
+--Viewing the results
+SELECT * FROM temp_new_vendor;
 
 -- Date
 /*1. Get the customer_id, month, and year (in separate columns) of every purchase in the customer_purchases table.
@@ -97,4 +67,3 @@ SELECT customer_id,
 FROM customer_purchases
 WHERE strftime('%Y-%m', market_date) = '2019-04'
 GROUP BY customer_id;
-
