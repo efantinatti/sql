@@ -6,18 +6,27 @@ SELECT vendor_id, COUNT(*) as booth_count
 FROM vendor_booth_assignments
 GROUP BY vendor_id;
 
+Extra:
+--Running a subquery, summing up the boot_count, just o be sure it returns all the 921 rows from the (SELECT * FROM vendor_booth_assignments)
+SELECT SUM(booth_count) AS total_booths
+FROM (
+    SELECT vendor_id, COUNT(*) AS booth_count
+    FROM vendor_booth_assignments
+    GROUP BY vendor_id
+) AS subquery;
+
 /* 2. The Farmer’s Market Customer Appreciation Committee wants to give a bumper 
 sticker to everyone who has ever spent more than $2000 at the market. Write a query that generates a list 
 of customers for them to give stickers to, sorted by last name, then first name. 
 
 HINT: This query requires you to join two tables, use an aggregate function, and use the HAVING keyword. */
 A:
-SELECT c.customer_last_name, c.customer_first_name, cp.quantity * cp.cost_to_customer_per_qty AS amount
-FROM customer c
-JOIN customer_purchases cp ON c.customer_id = cp.customer_id
+SELECT  c.customer_last_name,  c.customer_first_name, SUM(cp.quantity * cp.cost_to_customer_per_qty) AS total_amount_spent
+FROM  customer c
+JOIN  customer_purchases cp ON c.customer_id = cp.customer_id
 GROUP BY c.customer_id
-HAVING SUM(amount)  > 2000
-ORDER BY  c.customer_last_name, c.customer_first_name;
+HAVING SUM(cp.quantity * cp.cost_to_customer_per_qty ) > 2000
+ORDER BY  c.customer_last_name,  c.customer_first_name;
 
 --Temp Table
 /* 1. Insert the original vendor table into a temp.new_vendor and then add a 10th vendor: 
@@ -61,9 +70,7 @@ HINTS: you will need to AGGREGATE, GROUP BY, and filter...
 but remember, STRFTIME returns a STRING for your WHERE statement!! */
 A:
 SELECT customer_id, 
-       SUM(quantity * cost_to_customer_per_qty) AS total_spent,
-	          strftime('%m', market_date) AS month,
-       strftime('%Y', market_date) AS year
+       SUM(quantity * cost_to_customer_per_qty) AS total_spent, strftime('%m', market_date) AS month, strftime('%Y', market_date) AS year
 FROM customer_purchases
 WHERE strftime('%Y-%m', market_date) = '2019-04'
 GROUP BY customer_id;
