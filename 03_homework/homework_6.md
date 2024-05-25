@@ -7,7 +7,12 @@
 
 **Write**: Reflect on your previous work and how you would adjust to include ethics and inequity components. Total length should be a few paragraphs, no more than one page.
 
-My Answer:
+### My Answer:
+
+![alt text](image-2.png)
+<h6>Source: Own designed with AI collaboration</h6><br>
+
+#### My reflection
 
 I've been thinking about my previous SQL work and how I can include more ethics and fairness into this.
 
